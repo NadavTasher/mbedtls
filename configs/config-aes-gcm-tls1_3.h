@@ -10,41 +10,33 @@
 
 #define MBEDTLS_PSA_CRYPTO_CONFIG_FILE "../configs/crypto-config-aes-gcm-tls1_3.h"
 
+/* Crypto support */
 #define MBEDTLS_PSA_CRYPTO_C
-#define MBEDTLS_USE_PSA_CRYPTO
-#define MBEDTLS_PSA_CRYPTO_CLIENT
 
 /* System support */
 //#define MBEDTLS_HAVE_TIME /* Optionally used in Hello messages */
 /* Other MBEDTLS_HAVE_XXX flags irrelevant for this configuration */
 
 /* Mbed TLS modules */
-#define MBEDTLS_CTR_DRBG_C
-#define MBEDTLS_ENTROPY_C
 #define MBEDTLS_NET_C
+#define MBEDTLS_GCM_C
+#define MBEDTLS_AES_C
 #define MBEDTLS_SSL_CLI_C
-#define MBEDTLS_SSL_SRV_C
 #define MBEDTLS_SSL_TLS_C
+#define MBEDTLS_ENTROPY_C
+#define MBEDTLS_CTR_DRBG_C
+#define MBEDTLS_X509_CRT_PARSE_C
 
 /* TLS protocol feature support */
 #define MBEDTLS_SSL_PROTO_TLS1_3
-
+#define MBEDTLS_SSL_KEEP_PEER_CERTIFICATE
+#define MBEDTLS_KEY_EXCHANGE_WITH_CERT_ENABLED
+#define MBEDTLS_SSL_TLS1_3_KEY_EXCHANGE_MODE_EPHEMERAL_ENABLED
 /*
  * Use only AES-GCM ciphersuites, and
  * save ROM and a few bytes of RAM by specifying our own ciphersuite list
  */
-#define MBEDTLS_SSL_CIPHERSUITES TLS_AES_128_GCM_SHA256, TLS_AES_256_GCM_SHA384
-
-/*
- * Save RAM at the expense of interoperability: do this only if you control
- * both ends of the connection!  (See comments in "mbedtls/ssl.h".)
- * The optimal size here depends on the typical size of records.
- */
-#define MBEDTLS_SSL_IN_CONTENT_LEN              1024
-#define MBEDTLS_SSL_OUT_CONTENT_LEN             1024
-
-/* Save RAM at the expense of ROM */
-#define MBEDTLS_AES_ROM_TABLES
+#define MBEDTLS_SSL_CIPHERSUITES MBEDTLS_TLS1_3_AES_128_GCM_SHA256, MBEDTLS_TLS1_3_AES_256_GCM_SHA384
 
 /*
  * You should adjust this to the exact number of sources you're using: default
@@ -55,5 +47,6 @@
 
 /* Error messages and TLS debugging traces
  * (huge code size increase, needed for tests/ssl-opt.sh) */
-//#define MBEDTLS_DEBUG_C
-//#define MBEDTLS_ERROR_C
+#define MBEDTLS_DEBUG_C
+#define MBEDTLS_ERROR_C
+
